@@ -15,6 +15,7 @@ from spdx import checksum
 from spdx import document
 from spdx import package
 from spdx import version
+from spdx import creationinfo
 from spdx.parsers.builderexceptions import CardinalityError
 from spdx.parsers.builderexceptions import OrderError
 from spdx.parsers.builderexceptions import SPDXValueError
@@ -160,7 +161,7 @@ class EntityBuilder(tagvaluebuilders.EntityBuilder):
         elif self.org_re.match(value):
             return self.build_org(doc, value)
         else:
-            raise SPDXValueError("Entity")
+            return creationinfo.Creator(value)
 
 
 class CreationInfoBuilder(tagvaluebuilders.CreationInfoBuilder):
@@ -317,7 +318,8 @@ class PackageBuilder(tagvaluebuilders.PackageBuilder):
         Raise SPDXValueError if malformed value.
         """
         self.assert_package_exists()
-        category = category.split("_")[-1]
+        #category = category.split("_")[-1]
+        category = ''.join(category.split("_"))
 
         if category.lower() == "packagemanager":
             category = "PACKAGE-MANAGER"
