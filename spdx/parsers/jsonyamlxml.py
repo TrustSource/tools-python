@@ -1070,6 +1070,7 @@ class PackageParser(BaseParser):
             self.parse_pkg_attribution_text(package.get("attributionTexts"))
             self.parse_pkg_files(package.get("files"))
             self.parse_pkg_chksum(package.get("sha1"))
+            self.parse_pkg_ext_refs(package.get("externalRefs"))
         else:
             self.value_error("PACKAGE", package)
 
@@ -1485,6 +1486,36 @@ class PackageParser(BaseParser):
         elif pkg_chksum is not None:
             self.value_error("PKG_CHECKSUM", pkg_chksum)
 
+    def parse_pkg_ext_refs(self, pkg_ext_refs):
+        """
+        Parse Package external references
+        - pkg_ext_refs: Python list of dicts with fields describing an external reference
+        """
+        if isinstance(pkg_ext_refs, list):
+            for pkg_ext_ref in pkg_ext_refs:
+                if isinstance(pkg_ext_ref, dict):
+                    pkg_ext_ref_loc = pkg_ext_ref.get("referenceLocator")
+                    if isinstance(pkg_ext_ref_loc, str):
+                        self.builder.set_pkg_ext_ref_locator(self.document, pkg_ext_ref_loc)
+                    else:
+                        self.value_error("PKG_EXT_REF_LOCATOR", pkg_ext_ref_loc)
+
+                    pkg_ext_ref_cat = pkg_ext_ref.get("referenceCategory")
+                    if isinstance(pkg_ext_ref_cat, str):
+                        self.builder.set_pkg_ext_ref_category(self.document, pkg_ext_ref_cat)
+                    else:
+                        self.value_error("PKG_EXT_REF_CATEGORY", pkg_ext_ref_cat)
+
+                    pkg_ext_ref_type = pkg_ext_ref.get("referenceType")
+                    if isinstance(pkg_ext_ref_type, str):
+                        self.builder.set_pkg_ext_ref_type(self.document, pkg_ext_ref_type)
+                    else:
+                        self.value_error("PKG_EXT_REF_TYPE", pkg_ext_ref_type)
+
+                else:
+                    self.value_error("PKG_EXT_REF", pkg_ext_ref)
+        else:
+            self.value_error("PKG_EXT_REFS", pkg_ext_refs)
 
 class Parser(
     CreationInfoParser,
