@@ -11,6 +11,8 @@
 [5]: https://ci.appveyor.com/api/projects/status/0bf9glha2yg9x8ef/branch/master?svg=true
 [6]: https://ci.appveyor.com/project/spdx/tools-python/branch/master
 
+> [!WARNING]
+> **PLEASE NOTE:** We stopped further development on this client. You may still use it, but it will not receive support anymore. Starting Q4/2024 we decided to focus all efforts on developing [ts-scan](https://github.com/trustsource/ts-scan), which also covers all capabilities of this solution. 
 
 # Information
 
